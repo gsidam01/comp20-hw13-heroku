@@ -1,0 +1,67 @@
+<!-- /*
+ * George Sidamon-Eristoff 
+ * 23 April 2020
+ * Tufts Comp20 Spring 2020
+ * Homework 13 - Node.js and MongoDB
+ */ -->
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>George Sidamon-Eristoff Homework 13</title>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <script type="text/javascript" language="javascript">
+
+    function write_to_page(company, ticker)
+        {
+            const my_result = document.getElementById("data_here");
+            my_result.innerHTML = "Company = " + company;
+            my_result.innerHTML += "<br />Ticker = " + ticker;
+        }
+    async function query_by_tick(ticker)
+        {
+            var response = await fetch("t/" + ticker);
+            var json = await response.json();
+            await write_to_page(json.Company, ticker);
+        }
+    async function query_by_comp(company)
+        {
+            const response = await fetch("c/" + company);
+            const json = await response.json();
+            await write_to_page(company, json.Ticker);
+        }
+    function form_submit()
+        {
+            if (document.getElementById("comp").checked) {
+                query_by_comp(document.getElementById("input_field").value);
+            } else {
+                query_by_tick(document.getElementById("input_field").value);
+            }
+        }
+    </script>
+</head>
+<body>
+    <header>
+        George Sidamon-Eristoff<br />
+        18 April 2020<br />
+        Tufts Comp20 Spring 2020<br />
+        Homework 13 - Node.js and MongoDB<br /><br /><br />
+    </header>
+    <main>
+        Please enter a company's name or stock ticker.
+        <form>
+            <input type="radio" id="comp" name="choice" value="company">
+            <label for="comp">Company Name</label>
+            <input type="radio" id="ticker" name="choice" value="ticker">
+            <label for="ticker">Ticker</label>
+            <br />
+            <input type="text" id="input_field" name="input_field">
+            <input type="button" name="submit_button" id="submit_button" value="Search" onclick="form_submit()">
+        </form>
+        <article id="data_here">
+        </article>
+    </main>
+</body>
+
+
+</html>
